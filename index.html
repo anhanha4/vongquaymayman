@@ -1,24 +1,93 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <title>Vòng quay may mắn</title>
+<meta charset="UTF-8">
+<title>Vòng quay may mắn</title>
+<style>
+body {
+  text-align: center;
+  font-family: Arial;
+  background: #111;
+  color: #fff;
+}
+
+h2 {
+  margin-top: 20px;
+}
+
+#wheel {
+  margin: 30px auto;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  border: 8px solid #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+.slice {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  background: red;
+  transform-origin: 100% 100%;
+}
+
+button {
+  padding: 12px 30px;
+  font-size: 18px;
+  border: none;
+  background: gold;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+#arrow {
+  font-size: 40px;
+}
+</style>
 </head>
-<body style="text-align:center; font-family:sans-serif;">
+
+<body>
 
 <h2>🎯 Vòng quay may mắn</h2>
-<button onclick="spin()" style="padding:15px 30px; font-size:18px;">QUAY NGAY</button>
+<div id="arrow">⬇️</div>
+
+<div id="wheel"></div>
+
+<button onclick="spin()">QUAY NGAY</button>
 
 <script>
+const rewards = [88,188,288,388,588,888];
+const wheel = document.getElementById("wheel");
+
+// tạo 6 phần vòng quay
+rewards.forEach((val, i) => {
+  let div = document.createElement("div");
+  div.className = "slice";
+  div.style.background = i % 2 ? "#f39c12" : "#e74c3c";
+  div.style.transform = rotate(${i * 60}deg) skewY(-30deg);
+  div.innerHTML = <span style="position:absolute; left:60px; top:20px; transform:rotate(30deg);">${val}</span>;
+  wheel.appendChild(div);
+});
+
+let deg = 0;
+
 function spin() {
-  let rewards = [88,188,288,388,588,888];
-  let result = rewards[Math.floor(Math.random() * rewards.length)];
+  let resultIndex = Math.floor(Math.random() * rewards.length);
+  let result = rewards[resultIndex];
+
+  let rotateTo = 360 * 5 + (360 - resultIndex * 60);
+
+  deg += rotateTo;
+  wheel.style.transition = "transform 4s ease-out";
+  wheel.style.transform = rotate(${deg}deg);
 
   setTimeout(() => {
-    if(confirm("🎉 Chúc mừng! Bạn nhận ưu đãi " + result + "k\nNhấn OK để nhận")) {
+    if(confirm("🎉 Chúc mừng bạn nhận ưu đãi " + result + "k\nNhấn OK để nhận")) {
       window.location.href = "https://linkcuaban.com";
     }
-  }, 1500);
+  }, 4200);
 }
 </script>
 

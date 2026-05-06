@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Vòng quay may mắn</title>
+
 <style>
 body {
   text-align: center;
@@ -11,39 +12,43 @@ body {
   color: #fff;
 }
 
-h2 {
-  margin-top: 20px;
+.container {
+  position: relative;
+  width: 300px;
+  margin: 50px auto;
 }
 
 #wheel {
-  margin: 30px auto;
   width: 300px;
   height: 300px;
   border-radius: 50%;
   border: 8px solid #fff;
-  position: relative;
-  overflow: hidden;
+  background: conic-gradient(
+    #e74c3c 0deg 60deg,
+    #f39c12 60deg 120deg,
+    #2ecc71 120deg 180deg,
+    #3498db 180deg 240deg,
+    #9b59b6 240deg 300deg,
+    #f1c40f 300deg 360deg
+  );
+  transition: transform 4s ease-out;
 }
 
-.slice {
+#arrow {
   position: absolute;
-  width: 50%;
-  height: 50%;
-  background: red;
-  transform-origin: 100% 100%;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 30px;
 }
 
 button {
   padding: 12px 30px;
   font-size: 18px;
-  border: none;
   background: gold;
-  cursor: pointer;
+  border: none;
   border-radius: 10px;
-}
-
-#arrow {
-  font-size: 40px;
+  cursor: pointer;
 }
 </style>
 </head>
@@ -51,42 +56,39 @@ button {
 <body>
 
 <h2>🎯 Vòng quay may mắn</h2>
-<div id="arrow">⬇️</div>
 
-<div id="wheel"></div>
+<div class="container">
+  <div id="arrow">⬇️</div>
+  <div id="wheel"></div>
+</div>
 
 <button onclick="spin()">QUAY NGAY</button>
 
 <script>
 const rewards = [88,188,288,388,588,888];
-const wheel = document.getElementById("wheel");
-
-// tạo 6 phần vòng quay
-rewards.forEach((val, i) => {
-  let div = document.createElement("div");
-  div.className = "slice";
-  div.style.background = i % 2 ? "#f39c12" : "#e74c3c";
-  div.style.transform = rotate(${i * 60}deg) skewY(-30deg);
-  div.innerHTML = <span style="position:absolute; left:60px; top:20px; transform:rotate(30deg);">${val}</span>;
-  wheel.appendChild(div);
-});
-
-let deg = 0;
+let currentDeg = 0;
+let spinning = false;
 
 function spin() {
-  let resultIndex = Math.floor(Math.random() * rewards.length);
-  let result = rewards[resultIndex];
+  if(spinning) return;
+  spinning = true;
 
-  let rotateTo = 360 * 5 + (360 - resultIndex * 60);
+  let index = Math.floor(Math.random() * rewards.length);
+  let result = rewards[index];
 
-  deg += rotateTo;
-  wheel.style.transition = "transform 4s ease-out";
-  wheel.style.transform = rotate(${deg}deg);
+  let rotate = 360 * 5 + (360 - index * 60 - 30);
+  currentDeg += rotate;
+
+  const wheel = document.getElementById("wheel");
+  wheel.style.transform = rotate(${currentDeg}deg);
 
   setTimeout(() => {
-    if(confirm("🎉 Chúc mừng bạn nhận ưu đãi " + result + "k\nNhấn OK để nhận")) {
+    spinning = false;
+
+    if(confirm("🎉 Chúc mừng! Bạn nhận ưu đãi " + result + "k\nNhấn OK để nhận")) {
       window.location.href = "https://linkcuaban.com";
     }
+
   }, 4200);
 }
 </script>

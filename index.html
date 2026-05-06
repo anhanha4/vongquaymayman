@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Vòng quay may mắn</title>
+</head>
+<body style="text-align:center; font-family:sans-serif;">
+
+<h2>🎯 Vòng quay may mắn</h2>
+<button onclick="spin()" style="padding:15px 30px; font-size:18px;">QUAY NGAY</button>
+
+<script>
+function spin() {
+  let rewards = [88,188,288,388,588,888];
+  let result = rewards[Math.floor(Math.random() * rewards.length)];
+
+  setTimeout(() => {
+    if(confirm("🎉 Chúc mừng! Bạn nhận ưu đãi " + result + "k\nNhấn OK để nhận")) {
+      window.location.href = "https://linkcuaban.com";
+    }
+  }, 1500);
+}
+</script>
+
+</body>
+</html>
